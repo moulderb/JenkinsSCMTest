@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.SubversionSCM" plugin="subversion@2.6">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>https://github.com/moulderb/JenkinsSCMTest.git</remote>
+        <credentialsId>TestGitRepository</credentialsId>
+        <local>.</local>
+        <depthOption>infinity</depthOption>
+        <ignoreExternalsOption>true</ignoreExternalsOption>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
+    <ignoreDirPropChanges>false</ignoreDirPropChanges>
+    <filterChangelog>false</filterChangelog>
+  </scm>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders/>
+  <publishers/>
+  <buildWrappers/>
+</project>

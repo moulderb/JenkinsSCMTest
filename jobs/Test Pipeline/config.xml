@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.6">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>BuildNumber</name>
+          <description></description>
+          <defaultValue>1</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.17">
+    <script>stage (&quot;development&quot;) {
+    node(&apos;winslave&apos;) {
+        git branch: &apos;crooms/vso_release_test&apos;, credentialsId: &apos;ee6b24ca-dfbf-49ce-9d83-7d768a19079d&apos;, poll: false, url: &apos;https://marykay.visualstudio.com/DefaultCollection/_git/GACM&apos;
+        bat &apos;&apos;&apos;
+        powershell.exe -NonInteractive -ExecutionPolicy Bypass -command &quot;Saline\\Common\\Scripts\\state.apply.ps1 salt.branchup -environment shared.eu-west-1.dev -region eu-west-1 -buildnumber 1&quot;
+        &apos;&apos;&apos;
+        stage (&quot;pester test&quot;) {
+            bat &apos;&apos;&apos;
+            powershell.exe -NonInteractive -ExecutionPolicy Bypass -command &quot;Saline\\Common\\Scripts\\state.apply.ps1 salt.branchup -environment shared.eu-west-1.dev -region eu-west-1 -buildnumber 1 -pester -OutputFile ./TestResults/result.xml&quot;
+            &apos;&apos;&apos;
+            step([$class: &quot;NUnitPublisher&quot;, testResultsPattern: &quot;**/result.xml&quot;])
+        }
+    }
+}
+
+stage (&quot;qa&quot;) {
+    timeout(time:5, unit:&apos;DAYS&apos;) {
+        input message:&apos;Approve deployment?&apos;
+    }
+    node(&apos;winslave&apos;) {
+        bat &apos;&apos;&apos;
+        dir c:\\
+        dir c:\\windows
+        &apos;&apos;&apos;
+    }
+}
+stage (&quot;staging&quot;) {
+    timeout(time:5, unit:&apos;DAYS&apos;) {
+        input message:&apos;Approve deployment?&apos;
+    }
+    node(&apos;winslave&apos;) {
+        bat &apos;&apos;&apos;
+        dir c:\\
+        dir c:\\windows
+        &apos;&apos;&apos;
+    }
+}
+stage (&quot;production&quot;) {
+    timeout(time:5, unit:&apos;DAYS&apos;) {
+        input message:&apos;Approve deployment?&apos;
+    }   
+    node(&apos;winslave&apos;) {
+        bat &apos;&apos;&apos;
+        dir c:\\
+        dir c:\\windows
+        &apos;&apos;&apos;
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+</flow-definition>

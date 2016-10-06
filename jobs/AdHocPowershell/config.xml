@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>2</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>Target</name>
+          <description></description>
+          <defaultValue>brad-jenkins-ssm-tester</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>region</name>
+          <description></description>
+          <defaultValue>eu-west-1</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>cmd</name>
+          <description></description>
+          <defaultValue>get-service</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>environment</name>
+          <description></description>
+          <defaultValue>dev</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.0.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://marykay.visualstudio.com/defaultcollection/GACM/_git/GACM</url>
+        <credentialsId>ee6b24ca-dfbf-49ce-9d83-7d768a19079d</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/moulderb/WI#7566</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions>
+      <hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
+        <sparseCheckoutPaths>
+          <hudson.plugins.git.extensions.impl.SparseCheckoutPath>
+            <path>saline/</path>
+          </hudson.plugins.git.extensions.impl.SparseCheckoutPath>
+        </sparseCheckoutPaths>
+      </hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
+    </extensions>
+  </scm>
+  <assignedNode>winslave</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.powershell.PowerShell plugin="powershell@1.3">
+      <command>test-path $ENV:Workspace\Saline\Jenkins\Scripts\AdHocJenkinsPowershell.ps1
+. $ENV:Workspace\Saline\Jenkins\Scripts\AdHocJenkinsPowershell.ps1 -BUILD_NUMBER $ENV:BUILD_NUMBER -p_environment $ENV:ENVIRONMENT -p_region $ENV:REGION -p_target $env:Target -p_cmd $env:cmd</command>
+    </hudson.plugins.powershell.PowerShell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
