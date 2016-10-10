@@ -39,6 +39,7 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>Saline-Build-The-Whole-Burrito</string>
       </jobNames>
       <jobFilters/>
       <columns>
