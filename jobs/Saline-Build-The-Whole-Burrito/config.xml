@@ -15,24 +15,24 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
-          <name>Target</name>
+          <name>State</name>
           <description></description>
-          <defaultValue>brad-jenkins-ssm-tester</defaultValue>
+          <defaultValue>EnvBuild.Up</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>region</name>
           <description></description>
-          <defaultValue>eu-west-1</defaultValue>
+          <defaultValue>us-west-2</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>cmd</name>
+          <name>BUILD</name>
           <description></description>
-          <defaultValue>get-service</defaultValue>
+          <defaultValue>1</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>environment</name>
           <description></description>
-          <defaultValue>dev</defaultValue>
+          <defaultValue>ebiz.us-west-2.dev</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -47,7 +47,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/moulderb/WI#7566</name>
+        <name>*/ickesj/WI#7895_Final_Enchilada_Cleanup_Build</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -71,8 +71,11 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.powershell.PowerShell plugin="powershell@1.3">
-      <command>test-path $ENV:Workspace\Saline\Jenkins\Scripts\AdHocJenkinsPowershell.ps1
-. $ENV:Workspace\Saline\Jenkins\Scripts\AdHocJenkinsPowershell.ps1 -BUILD_NUMBER $ENV:BUILD_NUMBER -p_environment $ENV:ENVIRONMENT -p_region $ENV:REGION -p_target $env:Target -p_cmd $env:cmd</command>
+      <command>$r = $env:REGION
+
+$s = Get-ChildItem $ENV:WORKSPACE -Recurse -File state.apply.ps1
+cd $s.Directory
+.\state.apply $ENV:STATE -buildNumber $env:BUILD -environment $env:ENVIRONMENT -region $r -useverbose -continueonerror</command>
     </hudson.plugins.powershell.PowerShell>
   </builders>
   <publishers/>
