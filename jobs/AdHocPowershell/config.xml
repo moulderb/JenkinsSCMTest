@@ -27,7 +27,7 @@
         <hudson.model.StringParameterDefinition>
           <name>cmd</name>
           <description></description>
-          <defaultValue>get-service</defaultValue>
+          <defaultValue>get-process</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>environment</name>
