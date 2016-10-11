@@ -17,7 +17,7 @@
         <hudson.model.StringParameterDefinition>
           <name>State</name>
           <description></description>
-          <defaultValue>statetest.psscript</defaultValue>
+          <defaultValue>EnvBuild.Up</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>region</name>
